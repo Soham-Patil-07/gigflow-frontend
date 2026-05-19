@@ -43,22 +43,19 @@ export default function Dashboard() {
 
   // Fetch leads dynamically matching your exact backend structure
   const fetchLeads = async () => {
-  try {
-    const response = await axios.get('https://gigflow-backend-ctno.onrender.com/api/leads', {
-      params: {
-        status: statusFilter || undefined,
-        source: sourceFilter || undefined,
-        search: searchQuery || undefined,
-        sortBy,
-        page,
-        limit: 10
-      }
-    });
-    // set your data state here if you have one, e.g., setLeads(response.data);
-  } catch (error) {
-    console.error("Error fetching leads:", error);
-  }
-};
+    setLoading(true);
+    setError('');
+    try {
+      const response = await axios.get('https://gigflow-backend-ctno.onrender.com/api/leads', {
+        params: {
+          status: statusFilter || undefined,
+          source: sourceFilter || undefined,
+          search: searchQuery || undefined,
+          sortBy,
+          page,
+          limit: 10
+        }
+      });
       
       // Directly matching your backend keys: response.data.data & response.data.pagination
       if (response.data && response.data.success) {
@@ -69,7 +66,7 @@ export default function Dashboard() {
       }
     } catch (err: any) {
       console.error(err);
-      setError('Could not connect to the data pipeline. Make sure backend terminal is running npm run dev.');
+      setError('Could not connect to the data pipeline. Make sure backend terminal is running.');
     } finally {
       setLoading(false);
     }
