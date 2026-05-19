@@ -43,19 +43,22 @@ export default function Dashboard() {
 
   // Fetch leads dynamically matching your exact backend structure
   const fetchLeads = async () => {
-    setLoading(true);
-    setError('');
-    try {
-// Find this line around line 46:
-const response = await axios.get('https://gigflow-backend-ctno.onrender.com/api/leads', {
-          status: statusFilter || undefined,
-          source: sourceFilter || undefined,
-          search: searchQuery || undefined,
-          sortBy,
-          page,
-          limit: 10
-        }
-      });
+  try {
+    const response = await axios.get('https://gigflow-backend-ctno.onrender.com/api/leads', {
+      params: {
+        status: statusFilter || undefined,
+        source: sourceFilter || undefined,
+        search: searchQuery || undefined,
+        sortBy,
+        page,
+        limit: 10
+      }
+    });
+    // set your data state here if you have one, e.g., setLeads(response.data);
+  } catch (error) {
+    console.error("Error fetching leads:", error);
+  }
+};
       
       // Directly matching your backend keys: response.data.data & response.data.pagination
       if (response.data && response.data.success) {
