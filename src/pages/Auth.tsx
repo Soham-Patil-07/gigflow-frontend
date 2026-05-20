@@ -10,7 +10,7 @@ export default function Auth({ onAuthSuccess }: AuthProps) {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [role, setRole] = useState<'Admin' | 'Sales User'>('Sales User');
+  const [role, setRole] = useState<string>('Sales');
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -81,8 +81,8 @@ export default function Auth({ onAuthSuccess }: AuthProps) {
           {!isLogin && (
             <div className="space-y-1">
               <label className="text-xs font-semibold text-gray-600 uppercase tracking-wider">Organizational Role</label>
-              <select value={role} onChange={(e) => setRole(e.target.value as any)} className="w-full px-3 py-2 border rounded-md text-sm outline-none bg-white focus:ring-2 focus:ring-blue-500 text-gray-700">
-                <option value="Sales User">Sales User (View & Edit Only)</option>
+              <select value={role} onChange={(e) => setRole(e.target.value)} className="w-full px-3 py-2 border rounded-md text-sm outline-none bg-white focus:ring-2 focus:ring-blue-500 text-gray-700">
+                <option value="Sales">Sales User (View & Edit Only)</option> {/* 👈 Change this value to "Sales" */}
                 <option value="Admin">Admin (Full Clearance + Delete)</option>
               </select>
             </div>
