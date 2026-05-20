@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// ==========================================
-// SELF-CONTAINED TYPES
-// ==========================================
+
 type LeadStatus = 'New' | 'Contacted' | 'Qualified' | 'Lost';
 type LeadSource = 'Website' | 'Instagram' | 'Referral';
 
@@ -23,38 +21,31 @@ interface IPaginationMeta {
   hasNextPage: boolean;
 }
 
-// ==========================================
-// CORE DASHBOARD COMPONENT
-// ==========================================
+
 export default function Dashboard() {
   const [leads, setLeads] = useState<ILead[]>([]);
   
-  // Filter & Search States
   const [statusFilter, setStatusFilter] = useState<string>('');
   const [sourceFilter, setSourceFilter] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [searchInput, setSearchInput] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('latest');
   
-  // Control States
   const [page, setPage] = useState<number>(1);
   const [pagination, setPagination] = useState<IPaginationMeta | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
-  // 📝 CRUD & Modal States
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalMode, setModalMode] = useState<'create' | 'edit'>('create');
   const [editingLeadId, setEditingLeadId] = useState<string | null>(null);
   
-  // Form Field States
   const [formName, setFormName] = useState<string>('');
   const [formEmail, setFormEmail] = useState<string>('');
   const [formStatus, setFormStatus] = useState<LeadStatus>('New');
   const [formSource, setFormSource] = useState<LeadSource>('Website');
   const [formError, setFormError] = useState<string>('');
 
-  // Fetch leads dynamically matching your exact backend structure
   const fetchLeads = async () => {
     setLoading(true);
     setError('');
@@ -84,7 +75,6 @@ export default function Dashboard() {
     }
   };
 
-  // ⏱️ EFFECT 1: Debounce search input changes
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       setSearchQuery(searchInput);
@@ -94,12 +84,10 @@ export default function Dashboard() {
     return () => clearTimeout(delayDebounceFn);
   }, [searchInput]);
 
-  // 🔄 EFFECT 2: Trigger fetch whenever filters change
   useEffect(() => {
     fetchLeads();
   }, [statusFilter, sourceFilter, searchQuery, sortBy, page]);
 
-  // Open Modal for Creating
   const openCreateModal = () => {
     setModalMode('create');
     setEditingLeadId(null);
@@ -111,7 +99,6 @@ export default function Dashboard() {
     setIsModalOpen(true);
   };
 
-  // Open Modal for Editing
   const openEditModal = (lead: ILead) => {
     setModalMode('edit');
     setEditingLeadId(lead._id);
@@ -123,12 +110,10 @@ export default function Dashboard() {
     setIsModalOpen(true);
   };
 
-  // 💾 Handle Form Submit (Create or Update)
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
 
-    // Client-side validation basic check
     if (!formName.trim() || !formEmail.trim()) {
       setFormError('Name and Email fields are strictly required.');
       return;
@@ -144,27 +129,25 @@ export default function Dashboard() {
       }
       
       setIsModalOpen(false);
-      fetchLeads(); // Refresh table view records
+      fetchLeads(); 
     } catch (err: any) {
       console.error(err);
       setFormError(err.response?.data?.message || 'Failed to sync lead record to server pipeline.');
     }
   };
 
-  // 🗑️ Handle Delete Operation
   const handleDeleteLead = async (id: string) => {
     if (!window.confirm('Are you absolutely sure you want to remove this lead record permanently?')) return;
     
     try {
       await axios.delete(`https://gigflow-backend-ctno.onrender.com/api/leads/${id}`);
-      fetchLeads(); // Refresh table view records
+      fetchLeads(); 
     } catch (err: any) {
       console.error(err);
       alert('Error occurred while deleting lead profile.');
     }
   };
 
-  // Handle Exporting Current Loaded State to CSV
   const exportToCSV = () => {
     if (leads.length === 0) return alert('No data available to export.');
     
@@ -187,7 +170,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-50 p-6 font-sans">
       <div className="max-w-7xl mx-auto space-y-6">
         
-        {/* Header Section */}
+        {}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between bg-white p-6 rounded-lg shadow-sm border border-gray-100 gap-4">
           <div>
             <h1 className="text-2xl font-bold text-gray-800">Smart Leads Dashboard</h1>
@@ -209,7 +192,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Multi-Filters Panel Layout */}
+        {}
         <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <input 
             type="text"
@@ -252,7 +235,7 @@ export default function Dashboard() {
           </select>
         </div>
 
-        {/* Data Table Display Area */}
+        {}
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
           {loading ? (
             <div className="p-12 text-center text-gray-500 font-medium animate-pulse">Syncing pipeline records...</div>
@@ -311,7 +294,7 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* Pagination Component Footer */}
+          {}
           {pagination && pagination.totalPages > 1 && (
             <div className="p-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between">
               <span className="text-xs font-medium text-gray-500">
@@ -339,7 +322,7 @@ export default function Dashboard() {
 
       </div>
 
-      {/* 📋 INTERACTIVE POPUP FORM MODAL (Handles both Add & Edit actions cleanly) */}
+      {}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 animate-fadeIn">
           <div className="bg-white rounded-lg shadow-xl border border-gray-100 max-w-md w-full overflow-hidden flex flex-col">

@@ -17,7 +17,7 @@ export default function App() {
 
   return (
     <div className="relative">
-      {/* Dynamic Session Dashboard Action Control Header */}
+      {}
       <div className="absolute top-6 right-6 z-10 flex items-center gap-3">
         <span className="text-xs font-medium bg-gray-200/80 backdrop-blur text-gray-700 px-3 py-1.5 rounded-full shadow-sm hidden sm:inline-block">
           I.D: {JSON.parse(localStorage.getItem('user') || '{}').name} ({JSON.parse(localStorage.getItem('user') || '{}').role})

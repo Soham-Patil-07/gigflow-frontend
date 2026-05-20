@@ -21,7 +21,6 @@ export default function Auth({ onAuthSuccess }: AuthProps) {
 
     try {
       if (isLogin) {
-        // Hit your live Render login endpoint
         const response = await axios.post('https://gigflow-backend-ctno.onrender.com/api/auth/login', { email, password });
         if (response.data.success) {
           localStorage.setItem('token', response.data.token);
@@ -29,7 +28,6 @@ export default function Auth({ onAuthSuccess }: AuthProps) {
           onAuthSuccess();
         }
       } else {
-        // Hit your live Render registration endpoint
         const response = await axios.post('https://gigflow-backend-ctno.onrender.com/api/auth/register', { name, email, password, role });
         if (response.data.success) {
           setIsLogin(true);
